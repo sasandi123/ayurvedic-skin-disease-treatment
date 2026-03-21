@@ -13,6 +13,8 @@ Improvements for production deployment:
 """
 
 import os
+from datetime import datetime
+
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -35,6 +37,8 @@ warnings.filterwarnings('ignore')
 
 np.random.seed(42)
 tf.random.set_seed(42)
+
+timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
 
 
 def focal_loss(gamma=2.0, alpha=0.25):
