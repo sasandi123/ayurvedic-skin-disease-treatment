@@ -1,16 +1,4 @@
-"""
-Disease Classification - Production Version
-Target: >90% Test Accuracy
-
-Improvements for production deployment:
-- EfficientNetB4 (larger, more accurate than B3)
-- Larger input images (380x380 for better feature extraction)
-- More aggressive fine-tuning (100 trainable layers)
-- Advanced test-time augmentation (10 iterations)
-- Cosine annealing learning rate schedule
-- Focal loss for better handling of hard examples
-- Ensemble predictions from multiple checkpoints
-"""
+#Importing required Libraries
 
 import os
 from datetime import datetime
