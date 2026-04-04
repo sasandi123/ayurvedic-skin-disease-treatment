@@ -12,7 +12,7 @@ import json
 import torch
 import torchvision.models as tv_models
 from PIL import Image
-from flask import Flask, request, jsonify, render_template, redirect, url_for
+from flask import Flask, request, jsonify, render_template, redirect, url_for, make_response
 from tensorflow import keras
 import tensorflow as tf
 import joblib
@@ -731,6 +731,37 @@ def api_predict():
 # ---------------------------------------------------------------
 
 from pdf_generator import generate_diagnosis_pdf
+
+
+@app.route('/api/download-pdf', methods=['POST'])
+def download_pdf():
+    """
+    generates a formatted PDF report and streams it as a download.
+    """
+    try:
+        result_data = request.get_json(force=True)
+
+        if not result_data or not result_data.get('disease'):
+            return jsonify({'success': False,
+                            'error': 'No diagnosis data provided'}), 400
+
+        pdf_bytes = generate_diagnosis_pdf(result_data)
+
+        # Build a safe filename from disease name
+        disease_slug = str(result_data.get('disease', 'report')).lower().replace(' ', '_')
+        filename = f"ayurderma_{disease_slug}_report.pdf"
+
+        response = make_response(pdf_bytes)
+        response.headers['Content-Type'] = 'application/pdf'
+        response.headers['Content-Disposition'] = f'attachment; filename="{filename}"'
+        response.headers['Content-Length'] = len(pdf_bytes)
+        return response
+
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return jsonify({'success': False,
+                        'error': f'PDF generation failed: {str(e)}'}), 500
 
 
 @app.errorhandler(404)
