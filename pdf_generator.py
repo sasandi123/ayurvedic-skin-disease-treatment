@@ -234,3 +234,49 @@ def _patient_block(data: dict, styles: dict) -> list:
     ]))
     return [heading, hr, t, Spacer(1, 5 * mm)]
 
+
+def _treatment_row(label: str, value: str, styles: dict,
+                   highlight: bool = False) -> list:
+    """Single treatment detail row (two-column table)."""
+    bg = GREEN_PALE if highlight else GREY_LIGHT
+    lp = Paragraph(label.upper(), styles['small_caps'])
+    vp = Paragraph(str(value) if value else 'N/A', styles['body'])
+    row_table = Table([[lp, vp]],
+                      colWidths=[46 * mm, CONTENT_W - 46 * mm])
+    row_table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, -1), bg),
+        ('TOPPADDING', (0, 0), (-1, -1), 7),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 7),
+        ('LEFTPADDING', (0, 0), (0, -1), 10),
+        ('LEFTPADDING', (1, 0), (1, -1), 8),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 10),
+        ('LINEABOVE', (0, 0), (-1, 0), 0.5, GREY_BORDER),
+    ]))
+    return [row_table, Spacer(1, 1.5 * mm)]
+
+
+def _treatment_block(data: dict, styles: dict) -> list:
+    """Full recommended treatment section."""
+    t_data = data.get('treatment', {})
+    heading = Paragraph('Recommended Ayurvedic Treatment', styles['section_heading'])
+    hr = HRFlowable(width=CONTENT_W, thickness=1,
+                    color=GREEN_ACCENT, spaceAfter=6)
+
+    flowables = [heading, hr]
+
+    # Selected herb (highlighted)
+    herb_name = t_data.get('selected_herb') or t_data.get('herb_english', 'N/A')
+    flowables += _treatment_row('Selected Herb', herb_name, styles, highlight=True)
+    flowables += _treatment_row('English Name', t_data.get('herb_english', 'N/A'), styles)
+    flowables += _treatment_row('Sinhala Name', t_data.get('herb_sinhala', 'N/A'), styles)
+    flowables += _treatment_row('Scientific Name', t_data.get('herb_scientific', 'N/A'), styles)
+    flowables += _treatment_row('Part Used', t_data.get('herb_part_used', 'N/A'), styles)
+    flowables += _treatment_row('Preparation', t_data.get('preparation', 'N/A'), styles)
+    flowables += _treatment_row('Application', t_data.get('application', 'N/A'), styles)
+    flowables += _treatment_row('Frequency', t_data.get('frequency', 'N/A'), styles)
+    flowables += _treatment_row('Duration', t_data.get('duration', 'N/A'), styles)
+    flowables += _treatment_row('Precautions', t_data.get('precautions', 'N/A'), styles)
+    flowables += _treatment_row('When to See Doctor', t_data.get('when_to_see_doctor', 'N/A'), styles)
+
+    flowables.append(Spacer(1, 5 * mm))
+    return flowables
