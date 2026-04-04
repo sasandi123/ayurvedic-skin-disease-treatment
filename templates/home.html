@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AyurDerma - Home</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; background: #eef2f7; display: flex; height: 100vh; overflow: hidden; }
+
+        /* SIDEBAR */
+        .sidebar { width: 240px; background: #1b5e20; color: white; display: flex; flex-direction: column; height: 100vh; flex-shrink: 0; }
+        .sidebar-header { padding: 25px 20px; border-bottom: 1px solid rgba(255,255,255,0.15); }
+        .logo h1 { font-size: 1.7em; font-weight: 700; color: #a5d6a7; }
+        .logo p { font-size: 0.75em; color: rgba(255,255,255,0.75); margin-top: 5px; }
+        .nav-menu { flex: 1; padding: 15px 0; }
+        .nav-item { display: flex; align-items: center; gap: 12px; padding: 13px 20px; color: rgba(255,255,255,0.85); text-decoration: none; transition: all 0.3s; font-size: 0.9em; }
+        .nav-item:hover { background: rgba(255,255,255,0.12); color: white; }
+        .nav-item.active { background: #2e7d32; color: white; border-left: 4px solid #69f0ae; }
+        .nav-item .material-icons { font-size: 20px; }
+        .sidebar-footer { padding: 15px; border-top: 1px solid rgba(255,255,255,0.15); font-size: 0.7em; color: rgba(255,255,255,0.5); text-align: center; }
+
+        /* MAIN */
+        .main-content { flex: 1; padding: 25px 30px; overflow-y: auto; height: 100vh; }
+
+        /* HERO */
+        .hero-section { background: linear-gradient(135deg, #1b5e20 0%, #388e3c 100%); color: white; padding: 38px 42px; border-radius: 14px; margin-bottom: 25px; box-shadow: 0 4px 16px rgba(0,0,0,0.15); }
+        .hero-content h1 { font-size: 2em; margin-bottom: 12px; font-weight: 700; }
+        .hero-content p { font-size: 0.97em; line-height: 1.65; margin-bottom: 22px; max-width: 650px; color: rgba(255,255,255,0.92); }
+        .btn-primary { background: white; color: #1b5e20; border: none; padding: 13px 32px; font-size: 0.95em; font-weight: 700; border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; transition: all 0.3s; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.2); }
+
+        /* FEATURE CARDS */
+        .features-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-bottom: 22px; }
+        .feature-card { background: white; padding: 25px 20px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.09); transition: all 0.3s; border: 2px solid #b2dfdb; }
+        .feature-card:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0,0,0,0.13); border-color: #1b5e20; }
+        .feature-icon { width: 56px; height: 56px; background: #1b5e20; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
+        .feature-icon .material-icons { font-size: 28px; color: white; }
+        .feature-card h3 { color: #1b5e20; font-size: 1em; margin-bottom: 8px; font-weight: 700; }
+        .feature-card p { color: #444; font-size: 0.85em; line-height: 1.55; }
+
+        /* DISCLAIMER */
+        .disclaimer { background: #fff8e1; border: 2px solid #f9a825; padding: 16px 20px; border-radius: 10px; display: flex; gap: 12px; align-items: flex-start; }
+        .disclaimer .material-icons { color: #e65100; font-size: 24px; flex-shrink: 0; margin-top: 2px; }
+        .disclaimer-content p { color: #4e342e; font-size: 0.87em; line-height: 1.55; }
+        .disclaimer-content strong { color: #bf360c; }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <h1>AyurDerma</h1>
+                <p>Traditional Healing, Modern Technology</p>
+            </div>
+        </div>
+        <nav class="nav-menu">
+            <a href="/" class="nav-item active">
+                <span class="material-icons">home</span><span>Home</span>
+            </a>
+            <a href="/diagnosis" class="nav-item">
+                <span class="material-icons">camera_alt</span><span>New Diagnosis</span>
+            </a>
+            <a href="/about" class="nav-item">
+                <span class="material-icons">info</span><span>About</span>
+            </a>
+            <a href="/guidelines" class="nav-item">
+                <span class="material-icons">menu_book</span><span>Guidelines</span>
+            </a>
+        </nav>
+        <div class="sidebar-footer">© 2025 AyurDerma</div>
+    </aside>
+
+    <main class="main-content">
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1>AI-Powered Ayurvedic Skin Treatment</h1>
+                <p>Get personalized Sri Lankan Ayurvedic treatment recommendations for acne, eczema, and ringworm using advanced image analysis and traditional Hela Wedakama practices.</p>
+                <a href="/diagnosis" class="btn-primary">
+                    <span class="material-icons">camera_alt</span>Start Diagnosis
+                </a>
+            </div>
+        </section>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon"><span class="material-icons">image_search</span></div>
+                <h3>AI Image Analysis</h3>
+                <p>Deep learning models detect skin conditions with high accuracy from a single photo.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><span class="material-icons">science</span></div>
+                <h3>Severity Assessment</h3>
+                <p>Automatically determines whether a condition is mild, moderate, or severe.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><span class="material-icons">local_florist</span></div>
+                <h3>Herbal Remedies</h3>
+                <p>Personalized Ayurvedic herbs with preparation and application methods.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><span class="material-icons">verified_user</span></div>
+                <h3>Safety First</h3>
+                <p>Checks for age, skin type, and sensitivity compatibility before recommending.</p>
+            </div>
+        </div>
+
+        <div class="disclaimer">
+            <span class="material-icons">warning</span>
+            <div class="disclaimer-content">
+                <p><strong>Medical Disclaimer:</strong> This system provides preliminary Ayurvedic guidance only and should not replace consultation with a qualified medical practitioner. Always do a patch test before applying any herbal remedy.</p>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

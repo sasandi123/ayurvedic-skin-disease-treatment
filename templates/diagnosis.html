@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AyurDerma - Diagnosis</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; background: #eef2f7; display: flex; height: 100vh; overflow: hidden; }
+
+        /* SIDEBAR */
+        .sidebar { width: 240px; background: #1b5e20; color: white; display: flex; flex-direction: column; height: 100vh; flex-shrink: 0; }
+        .sidebar-header { padding: 25px 20px; border-bottom: 1px solid rgba(255,255,255,0.15); }
+        .logo h1 { font-size: 1.7em; font-weight: 700; color: #a5d6a7; }
+        .logo p { font-size: 0.75em; color: rgba(255,255,255,0.75); margin-top: 5px; }
+        .nav-menu { flex: 1; padding: 15px 0; }
+        .nav-item { display: flex; align-items: center; gap: 12px; padding: 13px 20px; color: rgba(255,255,255,0.85); text-decoration: none; transition: all 0.3s; font-size: 0.9em; }
+        .nav-item:hover { background: rgba(255,255,255,0.12); color: white; }
+        .nav-item.active { background: #2e7d32; color: white; border-left: 4px solid #69f0ae; }
+        .nav-item .material-icons { font-size: 20px; }
+        .sidebar-footer { padding: 15px; border-top: 1px solid rgba(255,255,255,0.15); font-size: 0.7em; color: rgba(255,255,255,0.5); text-align: center; }
+
+        /* MAIN */
+        .main-content { flex: 1; padding: 30px; overflow-y: auto; }
+        .diagnosis-container { max-width: 860px; margin: 0 auto; }
+
+        /* PAGE HEADER */
+        .page-header { margin-bottom: 28px; }
+        .page-header h1 { font-size: 2em; color: #1b5e20; margin-bottom: 6px; }
+        .page-header p { color: #555; font-size: 0.95em; }
+
+        /* UPLOAD */
+        .upload-section { background: white; border-radius: 12px; padding: 35px; box-shadow: 0 2px 10px rgba(0,0,0,0.09); margin-bottom: 22px; border: 1px solid #cfd8dc; }
+        .upload-area { border: 3px dashed #388e3c; border-radius: 12px; padding: 45px; text-align: center; background: #f1f8e9; transition: all 0.3s; cursor: pointer; }
+        .upload-area:hover, .upload-area.dragover { border-color: #1b5e20; background: #dcedc8; }
+        .upload-icon { font-size: 60px; color: #2e7d32; margin-bottom: 14px; }
+        .upload-area h3 { color: #1b5e20; margin-bottom: 8px; font-size: 1.15em; font-weight: 700; }
+        .upload-area p { color: #4a4a4a; font-size: 0.9em; margin-bottom: 16px; }
+        .btn-upload { background: #1b5e20; color: white; border: none; padding: 11px 28px; border-radius: 8px; font-size: 0.95em; font-weight: 600; cursor: pointer; transition: all 0.3s; }
+        .btn-upload:hover { background: #2e7d32; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        .preview-section { display: none; margin-top: 22px; text-align: center; }
+        .preview-image { max-width: 100%; max-height: 280px; border-radius: 12px; box-shadow: 0 4px 14px rgba(0,0,0,0.12); border: 2px solid #a5d6a7; }
+
+        /* PATIENT FORM */
+        .patient-form { background: white; border-radius: 12px; padding: 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.09); margin-bottom: 22px; border: 1px solid #cfd8dc; }
+        .form-group { margin-bottom: 22px; }
+        .form-label-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+        .form-group label { color: #1a1a1a; font-weight: 700; font-size: 0.92em; }
+        .guidelines-hint { font-size: 0.78em; color: #1b5e20; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; background: #e8f5e9; padding: 4px 10px; border-radius: 20px; border: 1px solid #a5d6a7; transition: all 0.2s; }
+        .guidelines-hint:hover { background: #c8e6c9; border-color: #1b5e20; }
+        .guidelines-hint .material-icons { font-size: 14px; }
+        .form-group select, .form-group input { width: 100%; padding: 12px 14px; border: 2px solid #b0bec5; border-radius: 8px; font-size: 0.95em; font-family: 'Poppins', sans-serif; color: #222; transition: all 0.3s; background: #fafafa; }
+        .form-group select:focus, .form-group input:focus { outline: none; border-color: #1b5e20; background: white; box-shadow: 0 0 0 3px rgba(27,94,32,0.1); }
+        .form-hint { font-size: 0.78em; color: #555; margin-top: 5px; font-style: italic; }
+
+        /* ANALYZE BUTTON */
+        .btn-analyze { background: #1b5e20; color: white; border: none; padding: 14px 35px; border-radius: 8px; font-size: 1em; font-weight: 700; cursor: pointer; width: 100%; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px; font-family: 'Poppins', sans-serif; }
+        .btn-analyze:hover:not(:disabled) { background: #2e7d32; transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.18); }
+        .btn-analyze:disabled { background: #90a4ae; cursor: not-allowed; color: #e0e0e0; }
+
+        /* LOADING */
+        .loading { display: none; text-align: center; padding: 35px; background: white; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.09); }
+        .spinner { border: 4px solid #c8e6c9; border-top: 4px solid #1b5e20; border-radius: 50%; width: 52px; height: 52px; animation: spin 1s linear infinite; margin: 0 auto 16px; }
+        .loading p { color: #1b5e20; font-weight: 600; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <h1>AyurDerma</h1>
+                <p>Traditional Healing, Modern Technology</p>
+            </div>
+        </div>
+        <nav class="nav-menu">
+            <a href="/" class="nav-item">
+                <span class="material-icons">home</span><span>Home</span>
+            </a>
+            <a href="/diagnosis" class="nav-item active">
+                <span class="material-icons">camera_alt</span><span>New Diagnosis</span>
+            </a>
+            <a href="/about" class="nav-item">
+                <span class="material-icons">info</span><span>About</span>
+            </a>
+            <a href="/guidelines" class="nav-item">
+                <span class="material-icons">menu_book</span><span>Guidelines</span>
+            </a>
+        </nav>
+        <div class="sidebar-footer">© 2025 AyurDerma</div>
+    </aside>
+
+    <main class="main-content">
+        <div class="diagnosis-container">
+            <div class="page-header">
+                <h1>New Diagnosis</h1>
+                <p>Upload a clear, well-lit photo of the affected skin area and fill in the patient details below.</p>
+            </div>
+
+            <!-- IMAGE UPLOAD -->
+            <div class="upload-section">
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon material-icons">cloud_upload</div>
+                    <h3>Upload Skin Image</h3>
+                    <p>Drag and drop an image here, or click the button to browse your files</p>
+                    <input type="file" id="imageInput" accept="image/*" style="display: none;">
+                    <button type="button" class="btn-upload" onclick="document.getElementById('imageInput').click()">
+                        Choose Image
+                    </button>
+                </div>
+                <div class="preview-section" id="previewSection">
+                    <img id="preview" class="preview-image" alt="Preview">
+                </div>
+            </div>
+
+            <!-- PATIENT FORM -->
+            <form id="diagnosisForm" class="patient-form">
+
+                <div class="form-group">
+                    <label for="age">Patient Age</label>
+                    <input type="number" id="age" name="age" min="0" max="120" required placeholder="Enter age in years">
+                </div>
+
+                <div class="form-group">
+                    <div class="form-label-row">
+                        <label for="skinType">Skin Type</label>
+                        <a href="/guidelines#skin-type" class="guidelines-hint" target="_blank">
+                            <span class="material-icons">help_outline</span>
+                            How to identify my skin type?
+                        </a>
+                    </div>
+                    <select id="skinType" name="skinType" required>
+                        <option value="">— Select skin type —</option>
+                        <option value="oily">Oily</option>
+                        <option value="normal">Normal</option>
+                        <option value="dry">Dry</option>
+                    </select>
+                    <p class="form-hint">Not sure? Visit our Guidelines page for a simple self-test.</p>
+                </div>
+
+                <div class="form-group">
+                    <div class="form-label-row">
+                        <label for="skinSensitivity">Skin Sensitivity</label>
+                        <a href="/guidelines#skin-sensitivity" class="guidelines-hint" target="_blank">
+                            <span class="material-icons">help_outline</span>
+                            How to identify sensitivity?
+                        </a>
+                    </div>
+                    <select id="skinSensitivity" name="skinSensitivity" required>
+                        <option value="">— Select sensitivity —</option>
+                        <option value="normal">Normal</option>
+                        <option value="sensitive">Sensitive</option>
+                    </select>
+                    <p class="form-hint">Sensitive skin reacts with redness, itching or burning to products or weather.</p>
+                </div>
+
+                <button type="submit" class="btn-analyze" id="analyzeBtn" disabled>
+                    <span class="material-icons">analytics</span>
+                    Analyze Image
+                </button>
+            </form>
+
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Analyzing your image, please wait…</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let selectedFile = null;
+        const uploadArea    = document.getElementById('uploadArea');
+        const imageInput    = document.getElementById('imageInput');
+        const previewSection= document.getElementById('previewSection');
+        const preview       = document.getElementById('preview');
+        const analyzeBtn    = document.getElementById('analyzeBtn');
+        const diagnosisForm = document.getElementById('diagnosisForm');
+        const loading       = document.getElementById('loading');
+
+        uploadArea.addEventListener('dragover', (e) => { e.preventDefault(); uploadArea.classList.add('dragover'); });
+        uploadArea.addEventListener('dragleave', () => { uploadArea.classList.remove('dragover'); });
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault(); uploadArea.classList.remove('dragover');
+            if (e.dataTransfer.files.length > 0) handleFile(e.dataTransfer.files[0]);
+        });
+        imageInput.addEventListener('change', (e) => { if (e.target.files.length > 0) handleFile(e.target.files[0]); });
+
+        function handleFile(file) {
+            if (!file.type.startsWith('image/')) { alert('Please upload an image file.'); return; }
+            selectedFile = file;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                preview.src = e.target.result;
+                previewSection.style.display = 'block';
+                analyzeBtn.disabled = false;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        diagnosisForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!selectedFile) { alert('Please upload an image first.'); return; }
+
+            const formData = new FormData();
+            formData.append('image', selectedFile);
+            formData.append('age', document.getElementById('age').value);
+            formData.append('skinType', document.getElementById('skinType').value);
+            formData.append('skinSensitivity', document.getElementById('skinSensitivity').value);
+
+            diagnosisForm.style.display = 'none';
+            loading.style.display = 'block';
+
+            try {
+                const response = await fetch('/api/predict', { method: 'POST', body: formData });
+                const result   = await response.json();
+
+                if (result.success) {
+                    sessionStorage.setItem('diagnosisResult', JSON.stringify(result));
+                    window.location.href = '/results';
+                } else {
+                    alert(result.error || 'Analysis failed. Please try again.');
+                    diagnosisForm.style.display = 'block';
+                    loading.style.display = 'none';
+                }
+            } catch (error) {
+                alert('Error connecting to server: ' + error.message);
+                diagnosisForm.style.display = 'block';
+                loading.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

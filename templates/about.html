@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AyurDerma - About</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; background: #eef2f7; display: flex; height: 100vh; overflow: hidden; }
+
+        /* SIDEBAR */
+        .sidebar { width: 240px; background: #1b5e20; color: white; display: flex; flex-direction: column; height: 100vh; flex-shrink: 0; }
+        .sidebar-header { padding: 25px 20px; border-bottom: 1px solid rgba(255,255,255,0.15); }
+        .logo h1 { font-size: 1.7em; font-weight: 700; color: #a5d6a7; }
+        .logo p { font-size: 0.75em; color: rgba(255,255,255,0.75); margin-top: 5px; }
+        .nav-menu { flex: 1; padding: 15px 0; }
+        .nav-item { display: flex; align-items: center; gap: 12px; padding: 13px 20px; color: rgba(255,255,255,0.85); text-decoration: none; transition: all 0.3s; font-size: 0.9em; }
+        .nav-item:hover { background: rgba(255,255,255,0.12); color: white; }
+        .nav-item.active { background: #2e7d32; color: white; border-left: 4px solid #69f0ae; }
+        .nav-item .material-icons { font-size: 20px; }
+        .sidebar-footer { padding: 15px; border-top: 1px solid rgba(255,255,255,0.15); font-size: 0.7em; color: rgba(255,255,255,0.5); text-align: center; }
+
+        /* MAIN */
+        .main-content { flex: 1; padding: 30px; overflow-y: auto; }
+        .about-container { max-width: 900px; margin: 0 auto; }
+        .page-header { margin-bottom: 28px; }
+        .page-header h1 { font-size: 2em; color: #1b5e20; margin-bottom: 6px; }
+        .page-header p { color: #555; font-size: 0.95em; }
+
+        /* HERO BANNER */
+        .about-hero { background: linear-gradient(135deg, #1b5e20, #388e3c); color: white; border-radius: 14px; padding: 38px 42px; margin-bottom: 24px; box-shadow: 0 4px 16px rgba(0,0,0,0.15); }
+        .about-hero h2 { font-size: 1.6em; margin-bottom: 12px; }
+        .about-hero p { font-size: 0.96em; line-height: 1.7; color: rgba(255,255,255,0.92); max-width: 680px; }
+
+        /* SECTION CARDS */
+        .section-card { background: white; border-radius: 12px; padding: 28px 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.09); margin-bottom: 22px; border: 1px solid #cfd8dc; }
+        .section-card h2 { color: #1b5e20; font-size: 1.2em; font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 10px; }
+        .section-card h2 .material-icons { font-size: 24px; background: #1b5e20; color: white; padding: 5px; border-radius: 7px; }
+        .section-card p { color: #444; font-size: 0.9em; line-height: 1.7; margin-top: 10px; }
+
+        /* HOW IT WORKS */
+        .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 18px; }
+        .step-item { text-align: center; padding: 20px 14px; background: #f5f5f5; border-radius: 10px; border-top: 4px solid #1b5e20; }
+        .step-number { width: 38px; height: 38px; background: #1b5e20; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1em; margin: 0 auto 12px; }
+        .step-item .material-icons { font-size: 28px; color: #1b5e20; margin-bottom: 10px; display: block; }
+        .step-item h4 { color: #1b5e20; font-size: 0.88em; font-weight: 700; margin-bottom: 6px; }
+        .step-item p { color: #555; font-size: 0.8em; line-height: 1.5; }
+
+        /* MODEL INFO */
+        .model-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 18px; }
+        .model-card { background: #e8f5e9; border-radius: 10px; padding: 18px; border: 2px solid #a5d6a7; }
+        .model-card h4 { color: #1b5e20; font-size: 0.92em; font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+        .model-card h4 .material-icons { font-size: 18px; }
+        .model-card p { color: #333; font-size: 0.82em; line-height: 1.55; }
+        .model-card .badge { display: inline-block; background: #1b5e20; color: white; font-size: 0.75em; padding: 2px 10px; border-radius: 12px; margin-top: 8px; font-weight: 600; }
+
+        /* LIMITATIONS */
+        .limit-list { list-style: none; padding: 0; margin-top: 14px; }
+        .limit-list li { display: flex; gap: 12px; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid #eee; font-size: 0.88em; color: #333; line-height: 1.55; }
+        .limit-list li:last-child { border-bottom: none; }
+        .limit-list li .material-icons { color: #e65100; font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+
+        /* DISCLAIMER */
+        .disclaimer { background: #fff8e1; border: 2px solid #f9a825; padding: 16px 20px; border-radius: 10px; display: flex; gap: 12px; align-items: flex-start; }
+        .disclaimer .material-icons { color: #e65100; font-size: 24px; flex-shrink: 0; margin-top: 2px; }
+        .disclaimer p { color: #4e342e; font-size: 0.87em; line-height: 1.6; }
+        .disclaimer strong { color: #bf360c; }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <h1>AyurDerma</h1>
+                <p>Traditional Healing, Modern Technology</p>
+            </div>
+        </div>
+        <nav class="nav-menu">
+            <a href="/" class="nav-item">
+                <span class="material-icons">home</span><span>Home</span>
+            </a>
+            <a href="/diagnosis" class="nav-item">
+                <span class="material-icons">camera_alt</span><span>New Diagnosis</span>
+            </a>
+            <a href="/about" class="nav-item active">
+                <span class="material-icons">info</span><span>About</span>
+            </a>
+            <a href="/guidelines" class="nav-item">
+                <span class="material-icons">menu_book</span><span>Guidelines</span>
+            </a>
+        </nav>
+        <div class="sidebar-footer">© 2025 AyurDerma</div>
+    </aside>
+
+    <main class="main-content">
+        <div class="about-container">
+            <div class="page-header">
+                <h1>About AyurDerma</h1>
+                <p>Learn about the system, the technology, and how it supports traditional healing.</p>
+            </div>
+
+            <!-- HERO -->
+            <div class="about-hero">
+                <h2>Bridging AI and Ayurvedic Medicine</h2>
+                <p>AyurDerma is a research-oriented system that combines deep learning image analysis with traditional Sri Lankan Ayurvedic (Hela Wedakama) knowledge to provide personalized herbal treatment guidance for common skin conditions. It is designed to make traditional herbal knowledge more accessible while integrating modern diagnostic technology.</p>
+            </div>
+
+            <!-- HOW IT WORKS -->
+            <div class="section-card">
+                <h2><span class="material-icons">settings</span> How It Works</h2>
+                <p>The system follows a four-stage pipeline from image upload to treatment recommendation.</p>
+                <div class="steps-grid">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <span class="material-icons">image_search</span>
+                        <h4>Disease Classification</h4>
+                        <p>An EfficientNet deep learning model classifies the uploaded image as acne, eczema or ringworm.</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <span class="material-icons">monitor_heart</span>
+                        <h4>Severity Assessment</h4>
+                        <p>A second model assesses whether the condition is mild, moderate or severe using ordinal regression.</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <span class="material-icons">local_florist</span>
+                        <h4>Herb Ranking</h4>
+                        <p>A Random Forest model ranks suitable Ayurvedic herbs based on disease, severity, age and skin profile.</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">4</div>
+                        <span class="material-icons">menu_book</span>
+                        <h4>Treatment Lookup</h4>
+                        <p>The top-ranked herb is matched to a validated Ayurvedic treatment database with preparation instructions.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI MODELS -->
+            <div class="section-card">
+                <h2><span class="material-icons">psychology</span> AI Models Used</h2>
+                <p>AyurDerma uses three machine learning models trained on curated dermatology and Ayurvedic datasets.</p>
+                <div class="model-grid">
+                    <div class="model-card">
+                        <h4><span class="material-icons">image</span> Disease Model</h4>
+                        <p>EfficientNet-based convolutional neural network trained to classify acne, eczema and ringworm from skin images.</p>
+                        <span class="badge">Keras / TensorFlow</span>
+                    </div>
+                    <div class="model-card">
+                        <h4><span class="material-icons">bar_chart</span> Severity Model</h4>
+                        <p>EfficientNetV2-M with a CORAL ordinal regression head, trained to predict mild, moderate or severe severity levels.</p>
+                        <span class="badge">PyTorch</span>
+                    </div>
+                    <div class="model-card">
+                        <h4><span class="material-icons">spa</span> Herb Recommender</h4>
+                        <p>Multi-label Random Forest model that ranks Ayurvedic herbs based on the patient's disease, severity, age and skin profile.</p>
+                        <span class="badge">Scikit-learn</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CONDITIONS -->
+            <div class="section-card">
+                <h2><span class="material-icons">healing</span> Conditions Covered</h2>
+                <p>AyurDerma currently supports diagnosis and treatment guidance for three common skin conditions:</p>
+                <p style="margin-top: 14px;"><strong style="color:#1b5e20">Acne (Muhudu Roga)</strong> — A common condition causing pimples, blackheads and whiteheads, often related to excess sebum and bacterial growth. Ayurvedic herbs such as Neem, Turmeric and Sandalwood are used.</p>
+                <p style="margin-top: 10px;"><strong style="color:#1b5e20">Eczema (Wigasuma)</strong> — A chronic inflammatory condition causing dry, itchy and inflamed patches of skin. Herbs such as Coconut Oil, Margosa and Aloe Vera are commonly recommended.</p>
+                <p style="margin-top: 10px;"><strong style="color:#1b5e20">Ringworm (Panu / Dadru)</strong> — A fungal infection of the skin causing ring-shaped rashes. Neem Oil, Garlic and Turmeric are traditionally used for their antifungal properties.</p>
+            </div>
+
+            <!-- LIMITATIONS -->
+            <div class="section-card">
+                <h2><span class="material-icons">report_problem</span> Limitations</h2>
+                <ul class="limit-list">
+                    <li><span class="material-icons">cancel</span>The system only supports acne, eczema and ringworm. Other skin conditions will not be classified correctly.</li>
+                    <li><span class="material-icons">cancel</span>Accuracy depends heavily on image quality. Blurry, dark or poorly framed images may lead to incorrect classifications.</li>
+                    <li><span class="material-icons">cancel</span>Recommendations are based on traditional Ayurvedic knowledge and may not be suitable for all individuals, particularly those with severe allergies.</li>
+                    <li><span class="material-icons">cancel</span>This system does not diagnose infections, prescribe medication or replace professional dermatological care.</li>
+                </ul>
+            </div>
+
+            <!-- DISCLAIMER -->
+            <div class="disclaimer">
+                <span class="material-icons">warning</span>
+                <p><strong>Medical Disclaimer:</strong> AyurDerma is a research prototype intended for educational and preliminary guidance purposes only. It is not a certified medical device and should not be used as a substitute for professional medical advice, diagnosis or treatment. Always seek the advice of a qualified health professional for any medical condition.</p>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
