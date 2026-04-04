@@ -132,3 +132,30 @@ def _build_styles():
         ),
     }
     return styles
+
+
+def _header_block(styles: dict) -> list:
+    """
+    Build the green header banner .
+    Returns a list of flowables wrapped in a single-cell Table
+    """
+    now_str = datetime.now().strftime('%d %B %Y  •  %H:%M')
+
+    title_para = Paragraph('AyurDerma', styles['title'])
+    subtitle_para = Paragraph(
+        'AI-Powered Ayurvedic Skin Diagnosis Report<br/>'
+        f'<font size="8" color="#a5d6a7">Generated: {now_str}</font>',
+        styles['subtitle']
+    )
+
+    inner = [[title_para], [subtitle_para]]
+    t = Table(inner, colWidths=[CONTENT_W])
+    t.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, -1), GREEN_DARK),
+        ('TOPPADDING', (0, 0), (-1, -1), 14),
+        ('BOTTOMPADDING', (0, -1), (-1, -1), 14),
+        ('LEFTPADDING', (0, 0), (-1, -1), 18),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 18),
+        ('ROWBACKGROUNDS', (0, 0), (-1, -1), [GREEN_DARK]),
+    ]))
+    return [t, Spacer(1, 8 * mm)]
