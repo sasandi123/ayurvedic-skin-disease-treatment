@@ -268,7 +268,6 @@ def _treatment_block(data: dict, styles: dict) -> list:
     herb_name = t_data.get('selected_herb') or t_data.get('herb_english', 'N/A')
     flowables += _treatment_row('Selected Herb', herb_name, styles, highlight=True)
     flowables += _treatment_row('English Name', t_data.get('herb_english', 'N/A'), styles)
-    flowables += _treatment_row('Sinhala Name', t_data.get('herb_sinhala', 'N/A'), styles)
     flowables += _treatment_row('Scientific Name', t_data.get('herb_scientific', 'N/A'), styles)
     flowables += _treatment_row('Part Used', t_data.get('herb_part_used', 'N/A'), styles)
     flowables += _treatment_row('Preparation', t_data.get('preparation', 'N/A'), styles)
