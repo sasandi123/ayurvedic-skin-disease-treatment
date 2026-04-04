@@ -159,3 +159,50 @@ def _header_block(styles: dict) -> list:
         ('ROWBACKGROUNDS', (0, 0), (-1, -1), [GREEN_DARK]),
     ]))
     return [t, Spacer(1, 8 * mm)]
+
+
+def _severity_badge_color(severity: str) -> colors.Color:
+    s = severity.lower()
+    if s == 'mild':     return colors.HexColor('#2e7d32')
+    if s == 'moderate': return colors.HexColor('#e65100')
+    return colors.HexColor('#b71c1c')
+
+
+def _diagnosis_summary_block(data: dict, styles: dict) -> list:
+    """
+    Three-column info strip: disease | severity | confidence
+    """
+    disease = str(data.get('disease', 'N/A')).capitalize()
+    severity = str(data.get('severity', 'N/A')).capitalize()
+    confidence = f"{float(data.get('confidence', 0)):.1f}%"
+    sev_color = _severity_badge_color(severity)
+
+    def _cell(label: str, value: str, val_color=GREEN_DARK):
+        label_p = Paragraph(label.upper(), styles['small_caps'])
+        value_p = Paragraph(
+            f'<font name="Helvetica-Bold" size="14" color="{val_color.hexval()}">'
+            f'{value}</font>',
+            styles['field_value']
+        )
+        return [label_p, value_p]
+
+    cells = [
+        _cell('Detected Condition', disease),
+        _cell('Severity', severity, sev_color),
+        _cell('Confidence', confidence),
+    ]
+
+    t = Table([cells], colWidths=[CONTENT_W / 3] * 3)
+    t.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, -1), GREEN_PALE),
+        ('TOPPADDING', (0, 0), (-1, -1), 10),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 10),
+        ('LEFTPADDING', (0, 0), (-1, -1), 12),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 12),
+        ('BOX', (0, 0), (-1, -1), 1, GREEN_ACCENT),
+        ('LINEBEFORE', (1, 0), (1, -1), 1, GREEN_ACCENT),
+        ('LINEBEFORE', (2, 0), (2, -1), 1, GREEN_ACCENT),
+        ('ROUNDEDCORNERS', [4]),
+    ]))
+    return [t, Spacer(1, 6 * mm)]
+
