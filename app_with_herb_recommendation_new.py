@@ -726,9 +726,17 @@ def api_predict():
         return jsonify({'success': False, 'error': 'Analysis failed. Please try again.'}), 500
 
 
+# ---------------------------------------------------------------
+# PDF DOWNLOAD ROUTE
+# ---------------------------------------------------------------
+
+from pdf_generator import generate_diagnosis_pdf
+
+
 @app.errorhandler(404)
 def not_found(e):
     return redirect(url_for('home'))
+
 
 
 # ---------------------------------------------------------------
