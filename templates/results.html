@@ -51,12 +51,9 @@
         .treatment-item p { color: #222; line-height: 1.65; font-size: 0.92em; }
 
         /* ACTION BUTTONS ROW */
-
         .action-row { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; margin-top: 4px; }
-
         .btn-new { background: #1b5e20; color: white; border: none; padding: 13px 32px; border-radius: 8px; font-size: 0.95em; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; transition: all 0.3s; font-family: 'Poppins', sans-serif; }
         .btn-new:hover { background: #2e7d32; transform: translateY(-2px); box-shadow: 0 5px 14px rgba(0,0,0,0.18); }
-
         .btn-download { background: white; color: #1b5e20; border: 2px solid #1b5e20; padding: 11px 28px; border-radius: 8px; font-size: 0.95em; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; transition: all 0.3s; font-family: 'Poppins', sans-serif; }
         .btn-download:hover:not(:disabled) { background: #e8f5e9; transform: translateY(-2px); box-shadow: 0 5px 14px rgba(0,0,0,0.12); }
         .btn-download:disabled { opacity: 0.55; cursor: not-allowed; transform: none; box-shadow: none; }
@@ -102,6 +99,16 @@
     <script>
         const resultsContainer = document.getElementById('resultsContainer');
         const data = JSON.parse(sessionStorage.getItem('diagnosisResult') || '{}');
+
+        /**
+         * formatSteps(text)
+         * Splits numbered steps "1. ... 2. ... 3. ..." onto separate lines.
+         */
+        function formatSteps(text) {
+            if (!text) return 'N/A';
+            const parts = text.trim().split(/\s+(?=\d+\.)/);
+            return parts.length > 1 ? parts.join('<br>') : text;
+        }
 
         if (!data.disease) {
             resultsContainer.innerHTML += `
@@ -167,11 +174,11 @@
                     </div>
                     <div class="treatment-item">
                         <h4>Preparation Method</h4>
-                        <p>${data.treatment.preparation}</p>
+                        <p>${formatSteps(data.treatment.preparation)}</p>
                     </div>
                     <div class="treatment-item">
                         <h4>Application Instructions</h4>
-                        <p>${data.treatment.application}</p>
+                        <p>${formatSteps(data.treatment.application)}</p>
                     </div>
                     <div class="treatment-item">
                         <h4>Frequency</h4>
@@ -196,10 +203,6 @@
                         <span class="material-icons">add_circle</span>
                         New Diagnosis
                     </a>
-
-                    <!-- ============================================================
-                         Download Report button — triggers downloadPDF()
-                         ============================================================ -->
                     <button class="btn-download" id="downloadBtn" onclick="downloadPDF()">
                         <span class="material-icons">picture_as_pdf</span>
                         Download Report
@@ -217,7 +220,6 @@
             const btn = document.getElementById('downloadBtn');
             if (!btn) return;
 
-            // Disable button and show loading state
             btn.disabled = true;
             btn.innerHTML = '<span class="material-icons">hourglass_empty</span> Generating…';
 
@@ -233,11 +235,10 @@
                     throw new Error(errData.error || 'PDF generation failed');
                 }
 
-                // Convert response to a Blob and trigger download
-                const blob     = await response.blob();
-                const url      = URL.createObjectURL(blob);
-                const anchor   = document.createElement('a');
-                const disease  = (data.disease || 'report').toLowerCase().replace(/\s+/g, '_');
+                const blob    = await response.blob();
+                const url     = URL.createObjectURL(blob);
+                const anchor  = document.createElement('a');
+                const disease = (data.disease || 'report').toLowerCase().replace(/\s+/g, '_');
                 anchor.href     = url;
                 anchor.download = `ayurderma_${disease}_report.pdf`;
                 document.body.appendChild(anchor);
@@ -248,13 +249,10 @@
             } catch (err) {
                 alert('Could not generate PDF: ' + err.message);
             } finally {
-                // Restore button
                 btn.disabled = false;
                 btn.innerHTML = '<span class="material-icons">picture_as_pdf</span> Download Report';
             }
         }
-
-
     </script>
 </body>
 </html>
