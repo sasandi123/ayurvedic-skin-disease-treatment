@@ -50,9 +50,16 @@
         .treatment-item h4 { color: #1b5e20; margin-bottom: 8px; font-size: 0.88em; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; }
         .treatment-item p { color: #222; line-height: 1.65; font-size: 0.92em; }
 
-        /* BUTTON */
+        /* ACTION BUTTONS ROW */
+
+        .action-row { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; margin-top: 4px; }
+
         .btn-new { background: #1b5e20; color: white; border: none; padding: 13px 32px; border-radius: 8px; font-size: 0.95em; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; transition: all 0.3s; font-family: 'Poppins', sans-serif; }
         .btn-new:hover { background: #2e7d32; transform: translateY(-2px); box-shadow: 0 5px 14px rgba(0,0,0,0.18); }
+
+        .btn-download { background: white; color: #1b5e20; border: 2px solid #1b5e20; padding: 11px 28px; border-radius: 8px; font-size: 0.95em; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; transition: all 0.3s; font-family: 'Poppins', sans-serif; }
+        .btn-download:hover:not(:disabled) { background: #e8f5e9; transform: translateY(-2px); box-shadow: 0 5px 14px rgba(0,0,0,0.12); }
+        .btn-download:disabled { opacity: 0.55; cursor: not-allowed; transform: none; box-shadow: none; }
 
         /* NO RESULT */
         .no-result { background: white; border-radius: 12px; padding: 40px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.09); }
@@ -184,12 +191,70 @@
                     </div>
                 </div>
 
-                <a href="/diagnosis" class="btn-new">
-                    <span class="material-icons">add_circle</span>
-                    New Diagnosis
-                </a>
+                <div class="action-row">
+                    <a href="/diagnosis" class="btn-new">
+                        <span class="material-icons">add_circle</span>
+                        New Diagnosis
+                    </a>
+
+                    <!-- ============================================================
+                         Download Report button — triggers downloadPDF()
+                         ============================================================ -->
+                    <button class="btn-download" id="downloadBtn" onclick="downloadPDF()">
+                        <span class="material-icons">picture_as_pdf</span>
+                        Download Report
+                    </button>
+                </div>
             `;
         }
+
+        /**
+         * downloadPDF()
+         * POSTs the stored diagnosis result JSON to /api/download-pdf,
+         * receives the binary PDF, and triggers a browser download.
+         */
+        async function downloadPDF() {
+            const btn = document.getElementById('downloadBtn');
+            if (!btn) return;
+
+            // Disable button and show loading state
+            btn.disabled = true;
+            btn.innerHTML = '<span class="material-icons">hourglass_empty</span> Generating…';
+
+            try {
+                const response = await fetch('/api/download-pdf', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                if (!response.ok) {
+                    const errData = await response.json().catch(() => ({}));
+                    throw new Error(errData.error || 'PDF generation failed');
+                }
+
+                // Convert response to a Blob and trigger download
+                const blob     = await response.blob();
+                const url      = URL.createObjectURL(blob);
+                const anchor   = document.createElement('a');
+                const disease  = (data.disease || 'report').toLowerCase().replace(/\s+/g, '_');
+                anchor.href     = url;
+                anchor.download = `ayurderma_${disease}_report.pdf`;
+                document.body.appendChild(anchor);
+                anchor.click();
+                document.body.removeChild(anchor);
+                URL.revokeObjectURL(url);
+
+            } catch (err) {
+                alert('Could not generate PDF: ' + err.message);
+            } finally {
+                // Restore button
+                btn.disabled = false;
+                btn.innerHTML = '<span class="material-icons">picture_as_pdf</span> Download Report';
+            }
+        }
+
+
     </script>
 </body>
 </html>
