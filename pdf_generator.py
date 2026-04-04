@@ -206,3 +206,31 @@ def _diagnosis_summary_block(data: dict, styles: dict) -> list:
     ]))
     return [t, Spacer(1, 6 * mm)]
 
+
+def _patient_block(data: dict, styles: dict) -> list:
+    """Patient profile section."""
+    patient = data.get('patient_data', {})
+    age = patient.get('age', 'N/A')
+    s_type = str(patient.get('skinType', 'N/A')).capitalize()
+    s_sens = str(patient.get('skinSensitivity', 'N/A')).capitalize()
+
+    heading = Paragraph('Patient Profile', styles['section_heading'])
+    hr = HRFlowable(width=CONTENT_W, thickness=1,
+                    color=GREEN_ACCENT, spaceAfter=5)
+
+    rows = [
+        [Paragraph('Age', styles['field_label']),
+         Paragraph(str(age), styles['field_value'])],
+        [Paragraph('Skin Type', styles['field_label']),
+         Paragraph(s_type, styles['field_value'])],
+        [Paragraph('Skin Sensitivity', styles['field_label']),
+         Paragraph(s_sens, styles['field_value'])],
+    ]
+    t = Table(rows, colWidths=[50 * mm, CONTENT_W - 50 * mm])
+    t.setStyle(TableStyle([
+        ('TOPPADDING', (0, 0), (-1, -1), 4),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 4),
+        ('LEFTPADDING', (0, 0), (-1, -1), 0),
+    ]))
+    return [heading, hr, t, Spacer(1, 5 * mm)]
+
