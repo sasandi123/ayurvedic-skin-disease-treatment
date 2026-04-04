@@ -37,3 +37,98 @@ MARGIN_H = 20 * mm
 MARGIN_V = 22 * mm
 CONTENT_W = PAGE_W - 2 * MARGIN_H
 
+
+def _build_styles():
+    """Return a dict of named ParagraphStyle objects."""
+    base = getSampleStyleSheet()
+
+    styles = {
+        'title': ParagraphStyle(
+            'title',
+            parent=base['Normal'],
+            fontName='Helvetica-Bold',
+            fontSize=22,
+            textColor=WHITE,
+            alignment=TA_LEFT,
+            leading=28,
+        ),
+        'subtitle': ParagraphStyle(
+            'subtitle',
+            parent=base['Normal'],
+            fontName='Helvetica',
+            fontSize=10,
+            textColor=colors.HexColor('#c8e6c9'),
+            alignment=TA_LEFT,
+            leading=14,
+        ),
+        'section_heading': ParagraphStyle(
+            'section_heading',
+            parent=base['Normal'],
+            fontName='Helvetica-Bold',
+            fontSize=12,
+            textColor=GREEN_DARK,
+            spaceBefore=4,
+            spaceAfter=6,
+            leading=16,
+        ),
+        'field_label': ParagraphStyle(
+            'field_label',
+            parent=base['Normal'],
+            fontName='Helvetica-Bold',
+            fontSize=8,
+            textColor=GREEN_MID,
+            leading=11,
+            spaceAfter=1,
+        ),
+        'field_value': ParagraphStyle(
+            'field_value',
+            parent=base['Normal'],
+            fontName='Helvetica',
+            fontSize=10,
+            textColor=BLACK,
+            leading=14,
+        ),
+        'body': ParagraphStyle(
+            'body',
+            parent=base['Normal'],
+            fontName='Helvetica',
+            fontSize=9.5,
+            textColor=GREY_TEXT,
+            leading=14,
+        ),
+        'body_bold': ParagraphStyle(
+            'body_bold',
+            parent=base['Normal'],
+            fontName='Helvetica-Bold',
+            fontSize=9.5,
+            textColor=BLACK,
+            leading=14,
+        ),
+        'disclaimer': ParagraphStyle(
+            'disclaimer',
+            parent=base['Normal'],
+            fontName='Helvetica',
+            fontSize=8.5,
+            textColor=AMBER_TEXT,
+            leading=13,
+        ),
+        'footer': ParagraphStyle(
+            'footer',
+            parent=base['Normal'],
+            fontName='Helvetica',
+            fontSize=8,
+            textColor=colors.HexColor('#90a4ae'),
+            alignment=TA_CENTER,
+            leading=11,
+        ),
+        'small_caps': ParagraphStyle(
+            'small_caps',
+            parent=base['Normal'],
+            fontName='Helvetica-Bold',
+            fontSize=7.5,
+            textColor=GREEN_MID,
+            leading=10,
+            spaceAfter=2,
+        ),
+    }
+    return styles
