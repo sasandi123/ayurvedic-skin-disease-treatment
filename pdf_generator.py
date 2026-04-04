@@ -310,3 +310,47 @@ def _footer_block(styles: dict) -> list:
         HRFlowable(width=CONTENT_W, thickness=0.5, color=GREY_BORDER, spaceBefore=4),
         Paragraph(text, styles['footer']),
     ]
+
+
+def generate_diagnosis_pdf(result_data: dict) -> bytes:
+    """
+    Main entry point.
+    Accepts the same dict returned by integrated_pipeline() and
+    returns the PDF as raw bytes (ready to stream as a download).
+    """
+    buffer = BytesIO()
+    doc = SimpleDocTemplate(
+        buffer,
+        pagesize=A4,
+        leftMargin=MARGIN_H,
+        rightMargin=MARGIN_H,
+        topMargin=MARGIN_V,
+        bottomMargin=MARGIN_V,
+        title='AyurDerma Diagnosis Report',
+        author='AyurDerma',
+    )
+
+    styles = _build_styles()
+    flowables = []
+
+    # 1. Header banner
+    flowables += _header_block(styles)
+
+    # 2. Diagnosis summary strip
+    flowables += _diagnosis_summary_block(result_data, styles)
+
+    # 3. Patient profile
+    flowables += _patient_block(result_data, styles)
+
+    # 4. Treatment details
+    flowables += _treatment_block(result_data, styles)
+
+    # 5. Disclaimer
+    flowables += _disclaimer_block(styles)
+
+    # 6. Footer
+    flowables += _footer_block(styles)
+
+    doc.build(flowables)
+    buffer.seek(0)
+    return buffer.read()
