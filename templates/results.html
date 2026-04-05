@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AyurDerma - Results</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; background: #eef2f7; display: flex; height: 100vh; overflow: hidden; }
+
+        /* SIDEBAR */
+        .sidebar { width: 240px; background: #1b5e20; color: white; display: flex; flex-direction: column; height: 100vh; flex-shrink: 0; }
+        .sidebar-header { padding: 25px 20px; border-bottom: 1px solid rgba(255,255,255,0.15); }
+        .logo h1 { font-size: 1.7em; font-weight: 700; color: #a5d6a7; }
+        .logo p { font-size: 0.75em; color: rgba(255,255,255,0.75); margin-top: 5px; }
+        .nav-menu { flex: 1; padding: 15px 0; }
+        .nav-item { display: flex; align-items: center; gap: 12px; padding: 13px 20px; color: rgba(255,255,255,0.85); text-decoration: none; transition: all 0.3s; font-size: 0.9em; }
+        .nav-item:hover { background: rgba(255,255,255,0.12); color: white; }
+        .nav-item.active { background: #2e7d32; color: white; border-left: 4px solid #69f0ae; }
+        .nav-item .material-icons { font-size: 20px; }
+        .sidebar-footer { padding: 15px; border-top: 1px solid rgba(255,255,255,0.15); font-size: 0.7em; color: rgba(255,255,255,0.5); text-align: center; }
+
+        /* MAIN */
+        .main-content { flex: 1; padding: 30px; overflow-y: auto; }
+        .results-container { max-width: 900px; margin: 0 auto; }
+        .page-header { margin-bottom: 25px; }
+        .page-header h1 { font-size: 2em; color: #1b5e20; margin-bottom: 6px; }
+
+        /* DIAGNOSIS CARD */
+        .diagnosis-card { background: white; border-radius: 12px; padding: 28px; box-shadow: 0 2px 10px rgba(0,0,0,0.09); margin-bottom: 20px; border: 1px solid #cfd8dc; }
+        .diagnosis-header { display: flex; align-items: center; gap: 16px; margin-bottom: 22px; padding-bottom: 16px; border-bottom: 2px solid #e0e0e0; }
+        .diagnosis-icon { width: 62px; height: 62px; background: #1b5e20; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .diagnosis-icon .material-icons { font-size: 32px; color: white; }
+        .diagnosis-info h2 { color: #1b5e20; font-size: 1.5em; margin-bottom: 4px; text-transform: capitalize; }
+        .diagnosis-info p { color: #555; font-size: 0.9em; }
+
+        /* INFO GRID */
+        .info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 6px; }
+        .info-item { background: #e8f5e9; padding: 16px; border-radius: 10px; border-left: 5px solid #1b5e20; }
+        .info-item label { display: block; color: #2e7d32; font-size: 0.78em; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+        .info-item value { display: block; color: #1a1a1a; font-weight: 700; font-size: 1.15em; }
+
+        /* TREATMENT SECTION */
+        .treatment-section { background: white; border-radius: 12px; padding: 28px; box-shadow: 0 2px 10px rgba(0,0,0,0.09); margin-bottom: 20px; border: 1px solid #cfd8dc; }
+        .section-title { color: #1b5e20; font-size: 1.25em; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; border-bottom: 2px solid #e8f5e9; padding-bottom: 12px; }
+        .treatment-item { margin-bottom: 14px; padding: 16px 18px; background: #f5f5f5; border-radius: 10px; border-left: 4px solid #546e7a; }
+        .treatment-item.selected { background: #e8f5e9; border-left: 5px solid #1b5e20; }
+        .treatment-item h4 { color: #1b5e20; margin-bottom: 8px; font-size: 0.88em; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; }
+        .treatment-item p { color: #222; line-height: 1.65; font-size: 0.92em; }
+
+        /* ACTION BUTTONS ROW */
+        .action-row { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; margin-top: 4px; }
+        .btn-new { background: #1b5e20; color: white; border: none; padding: 13px 32px; border-radius: 8px; font-size: 0.95em; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; transition: all 0.3s; font-family: 'Poppins', sans-serif; }
+        .btn-new:hover { background: #2e7d32; transform: translateY(-2px); box-shadow: 0 5px 14px rgba(0,0,0,0.18); }
+        .btn-download { background: white; color: #1b5e20; border: 2px solid #1b5e20; padding: 11px 28px; border-radius: 8px; font-size: 0.95em; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; transition: all 0.3s; font-family: 'Poppins', sans-serif; }
+        .btn-download:hover:not(:disabled) { background: #e8f5e9; transform: translateY(-2px); box-shadow: 0 5px 14px rgba(0,0,0,0.12); }
+        .btn-download:disabled { opacity: 0.55; cursor: not-allowed; transform: none; box-shadow: none; }
+
+        /* NO RESULT */
+        .no-result { background: white; border-radius: 12px; padding: 40px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.09); }
+        .no-result p { color: #555; margin-bottom: 20px; font-size: 1em; }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <h1>AyurDerma</h1>
+                <p>Traditional Healing, Modern Technology</p>
+            </div>
+        </div>
+        <nav class="nav-menu">
+            <a href="/" class="nav-item">
+                <span class="material-icons">home</span><span>Home</span>
+            </a>
+            <a href="/diagnosis" class="nav-item">
+                <span class="material-icons">camera_alt</span><span>New Diagnosis</span>
+            </a>
+            <a href="/about" class="nav-item">
+                <span class="material-icons">info</span><span>About</span>
+            </a>
+            <a href="/guidelines" class="nav-item">
+                <span class="material-icons">menu_book</span><span>Guidelines</span>
+            </a>
+        </nav>
+        <div class="sidebar-footer">© 2025 AyurDerma</div>
+    </aside>
+
+    <main class="main-content">
+        <div class="results-container" id="resultsContainer">
+            <div class="page-header">
+                <h1>Diagnosis Results</h1>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const resultsContainer = document.getElementById('resultsContainer');
+        const data = JSON.parse(sessionStorage.getItem('diagnosisResult') || '{}');
+
+        /**
+         * formatSteps(text)
+         * Splits numbered steps "1. ... 2. ... 3. ..." onto separate lines.
+         */
+        function formatSteps(text) {
+            if (!text) return 'N/A';
+            const parts = text.trim().split(/\s+(?=\d+\.)/);
+            return parts.length > 1 ? parts.join('<br>') : text;
+        }
+
+        if (!data.disease) {
+            resultsContainer.innerHTML += `
+                <div class="no-result">
+                    <p>No results found. Please perform a diagnosis first.</p>
+                    <a href="/diagnosis" class="btn-new">
+                        <span class="material-icons">camera_alt</span> Start Diagnosis
+                    </a>
+                </div>`;
+        } else {
+            resultsContainer.innerHTML += `
+                <div class="diagnosis-card">
+                    <div class="diagnosis-header">
+                        <div class="diagnosis-icon">
+                            <span class="material-icons">medical_services</span>
+                        </div>
+                        <div class="diagnosis-info">
+                            <h2>${data.disease}</h2>
+                            <p>AI-detected skin condition</p>
+                        </div>
+                    </div>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <label>Detected Condition</label>
+                            <value style="text-transform:capitalize">${data.disease}</value>
+                        </div>
+                        <div class="info-item">
+                            <label>Severity</label>
+                            <value style="text-transform:capitalize">${data.severity}</value>
+                        </div>
+                        <div class="info-item">
+                            <label>Confidence</label>
+                            <value>${data.confidence.toFixed(1)}%</value>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="treatment-section">
+                    <h3 class="section-title">
+                        <span class="material-icons">local_florist</span>
+                        Recommended Ayurvedic Treatment
+                    </h3>
+
+                    <div class="treatment-item selected">
+                        <h4>Selected Herb</h4>
+                        <p><strong>${data.treatment.selected_herb || data.treatment.herb_english}</strong></p>
+                    </div>
+                    <div class="treatment-item">
+                        <h4>Herb (English Name)</h4>
+                        <p>${data.treatment.herb_english}</p>
+                    </div>
+                    <div class="treatment-item">
+                        <h4>Herb (Sinhala Name)</h4>
+                        <p>${data.treatment.herb_sinhala}</p>
+                    </div>
+                    <div class="treatment-item">
+                        <h4>Scientific Name</h4>
+                        <p><em>${data.treatment.herb_scientific}</em></p>
+                    </div>
+                    <div class="treatment-item">
+                        <h4>Part of Plant Used</h4>
+                        <p>${data.treatment.herb_part_used}</p>
+                    </div>
+                    <div class="treatment-item">
+                        <h4>Preparation Method</h4>
+                        <p>${formatSteps(data.treatment.preparation)}</p>
+                    </div>
+                    <div class="treatment-item">
+                        <h4>Application Instructions</h4>
+                        <p>${formatSteps(data.treatment.application)}</p>
+                    </div>
+                    <div class="treatment-item">
+                        <h4>Frequency</h4>
+                        <p>${data.treatment.frequency}</p>
+                    </div>
+                    <div class="treatment-item">
+                        <h4>Treatment Duration</h4>
+                        <p>${data.treatment.duration}</p>
+                    </div>
+                    <div class="treatment-item">
+                        <h4>Precautions / Contraindications</h4>
+                        <p>${data.treatment.precautions}</p>
+                    </div>
+                    <div class="treatment-item">
+                        <h4>When to See a Doctor</h4>
+                        <p>${data.treatment.when_to_see_doctor}</p>
+                    </div>
+                </div>
+
+                <div class="action-row">
+                    <a href="/diagnosis" class="btn-new">
+                        <span class="material-icons">add_circle</span>
+                        New Diagnosis
+                    </a>
+                    <button class="btn-download" id="downloadBtn" onclick="downloadPDF()">
+                        <span class="material-icons">picture_as_pdf</span>
+                        Download Report
+                    </button>
+                </div>
+            `;
+        }
+
+        /**
+         * downloadPDF()
+         * POSTs the stored diagnosis result JSON to /api/download-pdf,
+         * receives the binary PDF, and triggers a browser download.
+         */
+        async function downloadPDF() {
+            const btn = document.getElementById('downloadBtn');
+            if (!btn) return;
+
+            btn.disabled = true;
+            btn.innerHTML = '<span class="material-icons">hourglass_empty</span> Generating…';
+
+            try {
+                const response = await fetch('/api/download-pdf', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                if (!response.ok) {
+                    const errData = await response.json().catch(() => ({}));
+                    throw new Error(errData.error || 'PDF generation failed');
+                }
+
+                const blob    = await response.blob();
+                const url     = URL.createObjectURL(blob);
+                const anchor  = document.createElement('a');
+                const disease = (data.disease || 'report').toLowerCase().replace(/\s+/g, '_');
+                anchor.href     = url;
+                anchor.download = `ayurderma_${disease}_report.pdf`;
+                document.body.appendChild(anchor);
+                anchor.click();
+                document.body.removeChild(anchor);
+                URL.revokeObjectURL(url);
+
+            } catch (err) {
+                alert('Could not generate PDF: ' + err.message);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<span class="material-icons">picture_as_pdf</span> Download Report';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AyurDerma - Guidelines</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; background: #eef2f7; display: flex; height: 100vh; overflow: hidden; }
+
+        /* SIDEBAR */
+        .sidebar { width: 240px; background: #1b5e20; color: white; display: flex; flex-direction: column; height: 100vh; flex-shrink: 0; }
+        .sidebar-header { padding: 25px 20px; border-bottom: 1px solid rgba(255,255,255,0.15); }
+        .logo h1 { font-size: 1.7em; font-weight: 700; color: #a5d6a7; }
+        .logo p { font-size: 0.75em; color: rgba(255,255,255,0.75); margin-top: 5px; }
+        .nav-menu { flex: 1; padding: 15px 0; }
+        .nav-item { display: flex; align-items: center; gap: 12px; padding: 13px 20px; color: rgba(255,255,255,0.85); text-decoration: none; transition: all 0.3s; font-size: 0.9em; }
+        .nav-item:hover { background: rgba(255,255,255,0.12); color: white; }
+        .nav-item.active { background: #2e7d32; color: white; border-left: 4px solid #69f0ae; }
+        .nav-item .material-icons { font-size: 20px; }
+        .sidebar-footer { padding: 15px; border-top: 1px solid rgba(255,255,255,0.15); font-size: 0.7em; color: rgba(255,255,255,0.5); text-align: center; }
+
+        /* MAIN */
+        .main-content { flex: 1; padding: 30px; overflow-y: auto; }
+        .guidelines-container { max-width: 900px; margin: 0 auto; }
+        .page-header { margin-bottom: 28px; }
+        .page-header h1 { font-size: 2em; color: #1b5e20; margin-bottom: 6px; }
+        .page-header p { color: #555; font-size: 0.95em; }
+
+        /* SECTION CARDS */
+        .section-card { background: white; border-radius: 12px; padding: 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.09); margin-bottom: 24px; border: 1px solid #cfd8dc; }
+        .section-card h2 { color: #1b5e20; font-size: 1.3em; margin-bottom: 6px; display: flex; align-items: center; gap: 10px; }
+        .section-card h2 .material-icons { font-size: 26px; background: #1b5e20; color: white; padding: 6px; border-radius: 8px; }
+        .section-subtitle { color: #555; font-size: 0.88em; margin-bottom: 22px; padding-bottom: 14px; border-bottom: 2px solid #e8f5e9; }
+
+        /* SKIN TYPE CARDS */
+        .skin-type-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 22px; }
+        .skin-type-card { border-radius: 10px; padding: 20px; border: 2px solid; }
+        .skin-type-card.oily { background: #fff8e1; border-color: #f9a825; }
+        .skin-type-card.normal { background: #e8f5e9; border-color: #388e3c; }
+        .skin-type-card.dry { background: #e3f2fd; border-color: #1565c0; }
+        .skin-type-card h3 { font-size: 1.05em; font-weight: 700; margin-bottom: 10px; }
+        .skin-type-card.oily h3 { color: #e65100; }
+        .skin-type-card.normal h3 { color: #1b5e20; }
+        .skin-type-card.dry h3 { color: #0d47a1; }
+        .skin-type-card ul { padding-left: 16px; }
+        .skin-type-card ul li { font-size: 0.85em; color: #333; margin-bottom: 6px; line-height: 1.5; }
+
+        /* BLOTTING TEST */
+        .test-box { background: #f3e5f5; border: 2px solid #7b1fa2; border-radius: 10px; padding: 20px; margin-top: 4px; }
+        .test-box h3 { color: #4a148c; font-size: 1em; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .test-box h3 .material-icons { font-size: 20px; }
+        .test-steps { counter-reset: step; padding: 0; list-style: none; }
+        .test-steps li { counter-increment: step; display: flex; gap: 12px; margin-bottom: 10px; font-size: 0.88em; color: #333; line-height: 1.55; }
+        .test-steps li::before { content: counter(step); background: #7b1fa2; color: white; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-size: 0.78em; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+        .result-row { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+        .result-chip { padding: 6px 14px; border-radius: 20px; font-size: 0.8em; font-weight: 600; }
+        .chip-oily { background: #fff3e0; color: #e65100; border: 1px solid #f9a825; }
+        .chip-normal { background: #e8f5e9; color: #1b5e20; border: 1px solid #388e3c; }
+        .chip-dry { background: #e3f2fd; color: #0d47a1; border: 1px solid #1565c0; }
+
+        /* SENSITIVITY */
+        .sensitivity-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 18px; }
+        .sens-card { border-radius: 10px; padding: 20px; border: 2px solid; }
+        .sens-card.normal-skin { background: #e8f5e9; border-color: #388e3c; }
+        .sens-card.sensitive-skin { background: #fce4ec; border-color: #c62828; }
+        .sens-card h3 { font-size: 1em; font-weight: 700; margin-bottom: 10px; }
+        .sens-card.normal-skin h3 { color: #1b5e20; }
+        .sens-card.sensitive-skin h3 { color: #b71c1c; }
+        .sens-card ul { padding-left: 16px; }
+        .sens-card ul li { font-size: 0.85em; color: #333; margin-bottom: 6px; line-height: 1.5; }
+
+        /* PATCH TEST */
+        .patch-box { background: #fff8e1; border: 2px solid #f9a825; border-radius: 10px; padding: 20px; }
+        .patch-box h3 { color: #e65100; font-size: 1em; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .patch-box h3 .material-icons { font-size: 20px; }
+        .patch-box ol { padding-left: 18px; }
+        .patch-box ol li { font-size: 0.87em; color: #333; margin-bottom: 8px; line-height: 1.55; }
+
+        /* IMAGE TIPS */
+        .tips-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+        .tip-item { background: #f5f5f5; border-left: 4px solid #1b5e20; border-radius: 8px; padding: 14px 16px; display: flex; gap: 12px; align-items: flex-start; }
+        .tip-item .material-icons { color: #1b5e20; font-size: 22px; flex-shrink: 0; }
+        .tip-item div h4 { color: #1b5e20; font-size: 0.9em; font-weight: 700; margin-bottom: 4px; }
+        .tip-item div p { color: #444; font-size: 0.83em; line-height: 1.5; }
+
+        /* DISCLAIMER */
+        .disclaimer { background: #fff8e1; border: 2px solid #f9a825; padding: 16px 20px; border-radius: 10px; display: flex; gap: 12px; align-items: flex-start; margin-top: 6px; }
+        .disclaimer .material-icons { color: #e65100; font-size: 24px; flex-shrink: 0; margin-top: 2px; }
+        .disclaimer p { color: #4e342e; font-size: 0.87em; line-height: 1.55; }
+        .disclaimer strong { color: #bf360c; }
+
+        /* CTA */
+        .cta-row { text-align: center; margin-top: 28px; margin-bottom: 10px; }
+        .btn-cta { background: #1b5e20; color: white; border: none; padding: 13px 35px; border-radius: 8px; font-size: 0.97em; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; transition: all 0.3s; font-family: 'Poppins', sans-serif; }
+        .btn-cta:hover { background: #2e7d32; transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.18); }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <h1>AyurDerma</h1>
+                <p>Traditional Healing, Modern Technology</p>
+            </div>
+        </div>
+        <nav class="nav-menu">
+            <a href="/" class="nav-item">
+                <span class="material-icons">home</span><span>Home</span>
+            </a>
+            <a href="/diagnosis" class="nav-item">
+                <span class="material-icons">camera_alt</span><span>New Diagnosis</span>
+            </a>
+            <a href="/about" class="nav-item">
+                <span class="material-icons">info</span><span>About</span>
+            </a>
+            <a href="/guidelines" class="nav-item active">
+                <span class="material-icons">menu_book</span><span>Guidelines</span>
+            </a>
+        </nav>
+        <div class="sidebar-footer">© 2025 AyurDerma</div>
+    </aside>
+
+    <main class="main-content">
+        <div class="guidelines-container">
+            <div class="page-header">
+                <h1>Usage Guidelines</h1>
+                <p>Read these guidelines before starting a diagnosis to get the most accurate results.</p>
+            </div>
+
+            <!-- SKIN TYPE -->
+            <div class="section-card" id="skin-type">
+                <h2><span class="material-icons">water_drop</span> How to Identify Your Skin Type</h2>
+                <p class="section-subtitle">Your skin type determines which herbal remedies are safest and most effective for you.</p>
+
+                <div class="skin-type-grid">
+                    <div class="skin-type-card oily">
+                        <h3>🟡 Oily Skin</h3>
+                        <ul>
+                            <li>Face looks shiny or greasy, especially on forehead, nose and chin (T-zone)</li>
+                            <li>Pores appear large or visible</li>
+                            <li>Prone to blackheads, whiteheads and acne breakouts</li>
+                            <li>Makeup slides off quickly</li>
+                            <li>Skin feels oily even a few hours after washing</li>
+                        </ul>
+                    </div>
+                    <div class="skin-type-card normal">
+                        <h3>🟢 Normal Skin</h3>
+                        <ul>
+                            <li>Skin feels balanced — not too oily or too dry</li>
+                            <li>Pores are small and barely visible</li>
+                            <li>Rarely has breakouts or flaky patches</li>
+                            <li>Feels comfortable throughout the day</li>
+                            <li>Minimal skin sensitivity to products or weather</li>
+                        </ul>
+                    </div>
+                    <div class="skin-type-card dry">
+                        <h3>🔵 Dry Skin</h3>
+                        <ul>
+                            <li>Skin feels tight, rough or flaky</li>
+                            <li>Visible dry patches, especially around nose and cheeks</li>
+                            <li>Pores appear very small or invisible</li>
+                            <li>Feels uncomfortable or itchy after washing</li>
+                            <li>Fine lines may appear more visible</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="test-box">
+                    <h3><span class="material-icons">science</span> Simple Blotting Paper Test (Most Reliable)</h3>
+                    <ol class="test-steps">
+                        <li>Wash your face gently with a mild cleanser and pat dry.</li>
+                        <li>Wait <strong>1 hour</strong> without applying any products.</li>
+                        <li>Press a blotting paper or tissue on different areas of your face: forehead, nose, cheeks and chin.</li>
+                        <li>Hold the paper up to the light and observe the oil marks.</li>
+                    </ol>
+                    <div class="result-row">
+                        <span class="result-chip chip-oily">Lots of oil everywhere → Oily</span>
+                        <span class="result-chip chip-normal">Little to no oil → Normal</span>
+                        <span class="result-chip chip-dry">No oil, skin feels tight → Dry</span>
+                        <span class="result-chip chip-oily">Oil on T-zone only → Combination (select Normal)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SKIN SENSITIVITY -->
+            <div class="section-card" id="skin-sensitivity">
+                <h2><span class="material-icons">sentiment_very_dissatisfied</span> How to Identify Skin Sensitivity</h2>
+                <p class="section-subtitle">Sensitive skin requires milder herbal formulations to prevent adverse reactions.</p>
+
+                <div class="sensitivity-grid">
+                    <div class="sens-card normal-skin">
+                        <h3>✅ Normal (Non-Sensitive) Skin</h3>
+                        <ul>
+                            <li>Skin tolerates most skincare products without reaction</li>
+                            <li>No burning or stinging sensation after applying products</li>
+                            <li>No redness or rash from weather changes</li>
+                            <li>Rarely develops allergic reactions to herbal or natural products</li>
+                            <li>Recovers quickly after sun exposure or environmental stress</li>
+                        </ul>
+                    </div>
+                    <div class="sens-card sensitive-skin">
+                        <h3>⚠️ Sensitive Skin</h3>
+                        <ul>
+                            <li>Skin reacts to new products with redness, itching or burning</li>
+                            <li>Easily irritated by fragrances, dyes or harsh ingredients</li>
+                            <li>Flushes or becomes blotchy in hot/cold weather</li>
+                            <li>Stings or tingles when applying most skincare products</li>
+                            <li>History of eczema, rosacea or allergic skin conditions</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="patch-box">
+                    <h3><span class="material-icons">colorize</span> Patch Test for Sensitivity (Recommended Before Any Remedy)</h3>
+                    <ol>
+                        <li>Apply a small amount of the herbal preparation on the inner wrist or behind the ear.</li>
+                        <li>Leave it on for <strong>24 hours</strong> without washing.</li>
+                        <li>Check for any redness, itching, swelling or burning sensation.</li>
+                        <li>If any reaction occurs, do <strong>not</strong> use that preparation and consult a doctor.</li>
+                        <li>If no reaction occurs, the preparation is safe to use on the affected area.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- PHOTO TIPS -->
+            <div class="section-card">
+                <h2><span class="material-icons">camera_alt</span> How to Take a Good Photo for Diagnosis</h2>
+                <p class="section-subtitle">Photo quality directly affects the accuracy of the AI diagnosis.</p>
+                <div class="tips-grid">
+                    <div class="tip-item">
+                        <span class="material-icons">wb_sunny</span>
+                        <div>
+                            <h4>Good Lighting</h4>
+                            <p>Use natural daylight or bright indoor light. Avoid dark rooms or harsh flash which creates glare.</p>
+                        </div>
+                    </div>
+                    <div class="tip-item">
+                        <span class="material-icons">zoom_in</span>
+                        <div>
+                            <h4>Close but Clear</h4>
+                            <p>Get close enough to show the affected area clearly, but make sure the image is in focus and not blurry.</p>
+                        </div>
+                    </div>
+                    <div class="tip-item">
+                        <span class="material-icons">crop_free</span>
+                        <div>
+                            <h4>Show the Full Affected Area</h4>
+                            <p>Ensure the entire rash, patch or affected skin is visible and centred in the frame.</p>
+                        </div>
+                    </div>
+                    <div class="tip-item">
+                        <span class="material-icons">block</span>
+                        <div>
+                            <h4>No Makeup or Cream</h4>
+                            <p>Remove any makeup, creams or ointments from the affected area before taking the photo.</p>
+                        </div>
+                    </div>
+                    <div class="tip-item">
+                        <span class="material-icons">stay_current_portrait</span>
+                        <div>
+                            <h4>Hold the Camera Steady</h4>
+                            <p>Rest your hand or phone against a surface to avoid motion blur. Take multiple shots and choose the sharpest.</p>
+                        </div>
+                    </div>
+                    <div class="tip-item">
+                        <span class="material-icons">color_lens</span>
+                        <div>
+                            <h4>True Colours</h4>
+                            <p>Avoid filters or editing. The AI needs the natural colour of the skin lesion for accurate classification.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DISCLAIMER -->
+            <div class="disclaimer">
+                <span class="material-icons">warning</span>
+                <p><strong>Important:</strong> AyurDerma is an AI-assisted tool for preliminary guidance only. It does not replace professional medical diagnosis or treatment. Always consult a qualified dermatologist or Ayurvedic practitioner for serious or persistent skin conditions. Stop using any herbal remedy if you experience adverse reactions.</p>
+            </div>
+
+            <div class="cta-row">
+                <a href="/diagnosis" class="btn-cta">
+                    <span class="material-icons">camera_alt</span> Ready? Start Your Diagnosis
+                </a>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
